@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-		"dev": "nodemon -r dotenv/config src/index.ts | pino-colada",
-		"build": "rm -rf dist && tsc",
-		"start": "node dist/index.js"
-	},
+    "dev": "nodemon -r dotenv/config src/index.ts | pino-colada",
+    "build": "rm -rf dist && tsc",
+    "start": "node dist/index.js"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -66,6 +66,7 @@
     "graceful-fs": "^4.2.10",
     "has-flag": "^3.0.0",
     "has-yarn": "^2.1.0",
+    "heroku": "^7.60.2",
     "http-cache-semantics": "^4.1.0",
     "ignore-by-default": "^1.0.1",
     "import-lazy": "^2.1.0",

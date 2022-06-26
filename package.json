@@ -19,6 +19,7 @@
     "@fastify/autoload": "^5.0.0",
     "@fastify/swagger": "^7.4.0",
     "@fastify/type-provider-typebox": "^1.0.0",
+    "@sinclair/typebox": "^0.23.5",
     "@types/bcrypt": "^5.0.0",
     "abbrev": "^1.1.1",
     "acorn": "^8.7.1",

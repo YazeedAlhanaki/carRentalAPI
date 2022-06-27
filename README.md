@@ -8,11 +8,15 @@ Login
 
 Create rental order
 
+show orders
+
 Update order
 
 Delete orders
 
-View all cars
+View all available cars
+
+car images
 
 payment 
 

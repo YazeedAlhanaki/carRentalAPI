@@ -114,5 +114,4 @@ export default async function (server: FastifyInstance) {
 			}
 		},
 	});
-
 }

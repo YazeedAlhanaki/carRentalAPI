@@ -77,7 +77,7 @@ export default async function (server: FastifyInstance) {
 		url: '/rental/:id',
 		schema: {
 			summary: 'Returns one rental or null',
-			tags: ['cars'],
+			tags: ['rentals'],
 			params: Type.Object({
 				id: Type.String({ format: 'uuid' }),
 			}),

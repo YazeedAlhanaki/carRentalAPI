@@ -35,7 +35,7 @@ export default async function (server: FastifyInstance) {
 		url: '/payment/:id',
 		schema: {
 			summary: 'Update a payment by id + you dont need to pass all properties',
-			tags: ['cars'],
+			tags: ['payment'],
 			body: Type.Partial(Payment),
 			params: Type.Object({
 				id: Type.String({ format: 'uuid' }),
@@ -52,7 +52,7 @@ export default async function (server: FastifyInstance) {
 		url: '/payment/:id',
 		schema: {
 			summary: 'Deletes a payment',
-			tags: ['payments'],
+			tags: ['payment'],
 			params: Type.Object({
 				id: Type.String({ format: 'uuid' }),
 			}),

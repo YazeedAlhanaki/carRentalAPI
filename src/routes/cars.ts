@@ -95,7 +95,7 @@ export default async function (server: FastifyInstance) {
 		url: '/cars',
 		schema: {
 			summary: 'Gets all cars',
-			tags: ['Cars'],
+			tags: ['cars'],
 			querystring: GetcarQuery,
 			response: {
 				'2xx': Type.Array(Car),

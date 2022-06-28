@@ -1,5 +1,6 @@
 import fastifyAutoload from '@fastify/autoload';
 import fastifySwagger from '@fastify/swagger';
+import fastifySensible from '@fastify/sensible';
 import { ajvTypeBoxPlugin, TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import fastify from 'fastify';
 import { join } from 'path';
@@ -27,6 +28,22 @@ server.register(fastifySwagger, {
 	},
 });
 
+server.register(fastifySensible);
+
 server.register(fastifyAutoload, {
 	dir: join(__dirname, 'routes'),
 });
+
+const port: any = process.env.PORT ?? process.env.$PORT ?? 3002;
+
+export function listen() {
+	server
+		.listen({
+			port: port,
+			host: '0.0.0.0',
+		})
+		.catch((err) => {
+			server.log.error(err);
+			process.exit(1);
+		});
+}

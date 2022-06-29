@@ -18,9 +18,13 @@ View all available cars
 
 car images
 
-payment 
+payment
 
-car reviwes
+viewing all payments
+
+car reviwe
+
+viewing all car reviews
 
 ## Stack
 
@@ -30,7 +34,7 @@ Language: typescript
 
 Web Server: fastify
 
-ORM: Mongoose
+ORM: prisma
 
 DB: MongoDB
 

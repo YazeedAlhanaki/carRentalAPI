@@ -1,19 +1,30 @@
 # carRentalAPI
 
 ## Features
+
+carete user
+
 Login
 
 Create rental order
+
+show orders
 
 Update order
 
 Delete orders
 
-View all cars
+View all available cars
 
-payment 
+car images
 
-car reviwes
+payment
+
+viewing all payments
+
+car reviwe
+
+viewing all car reviews
 
 ## Stack
 
@@ -23,7 +34,7 @@ Language: typescript
 
 Web Server: fastify
 
-ORM: Mongoose
+ORM: prisma
 
 DB: MongoDB
 

@@ -1,22 +1,14 @@
 # carRentalAPI
 
+https://carrentalapi1.herokuapp.com/docs/static/index.html
+
 ## Features
 
 carete user
 
 Login
 
-Create rental order
-
-show orders
-
-Update order
-
-Delete orders
-
 View all available cars
-
-car images
 
 payment
 
@@ -25,6 +17,30 @@ viewing all payments
 car reviwe
 
 viewing all car reviews
+
+create car
+
+delete car
+
+update car
+
+adding customers
+
+removing customers
+
+update customers
+
+show which car the customer has
+
+viewing the most expensivr available car
+
+viewing the cheapest available car
+
+creating the rental order
+
+updating the rental order
+
+deleting the rental order
 
 ## Stack
 

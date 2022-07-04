@@ -6,16 +6,12 @@ import jwt = require("jsonwebtoken");
 const saltround = 10
 const mySecret = "secret";
 import "@fastify/jwt"
-
 const UserWithoutId = Type.Object({
 	email: Type.String(),
 	username: Type.String(),
-	password: Type.String(),
-});
+	password: Type.String(),});
 type UserWithoutId = Static<typeof UserWithoutId>;
-
 export default async function (server: FastifyInstance) {
-
     server.route({
 		method: 'POST',
 		url: '/user/create',
@@ -31,11 +27,7 @@ export default async function (server: FastifyInstance) {
 				data: {
 					...user,
 					password:encryptedPassword
-				}
-			})
-		},
-	}); 
-
+				}})	},}); 
     server.route({
 		method: 'POST',
 		url: '/user/login',
@@ -44,19 +36,15 @@ export default async function (server: FastifyInstance) {
 			tags: ['user'],
 			body: Type.Object({
 				username: Type.String(),
-				password: Type.String(),
-			}),
-		},
+				password: Type.String(),}),},
 		handler: async (request, reply) => {
 			const body = request.body as any;
 			const user = await prismaClient.user.findFirst({
 				where: {
 					username: body.username,
-				},
-			});
+				},});
 			if (!user) {
-				return { msg: 'user not found' };
-			}
+				return { msg: 'user not found' };}
 			const isValid = await bcrypt.compare(body.password, user.password);
 			if (!isValid) {
 				return { msg: 'password is incorrect' };
@@ -64,29 +52,6 @@ export default async function (server: FastifyInstance) {
             let token = jwt.sign({ _id: user.user_id, username: user.username }, mySecret);
           reply.send({ msg: "User logged in", token: token });
 			return user;
-		},
-	});
-    // server.route({
-	// 	method: 'POST',
-	// 	url: '/user/verify',
-	// 	schema: {
-	// 		summary: 'verify a user',
-	// 		tags: ['user'],
-	// 		body: Type.Object({
-	// 			username: Type.String(),
-	// 			password: Type.String(),
-	// 		}),
-	// 	},
-	// 	handler: async (request, reply) => {
-    //         // jwt.verify(request.body.token, mySecret, function(err, decoded) {
-    //         //     if(decoded){
-    //         //         reply.send({"msg":`hello ${decoded.id}`});
-    //         //     }else{
-    //         //         reply.send({"msg":"invalid token"});
-    //         //     }
-    //         //   });
-    //         }
-	// 	})
-}
+		},});}
 
 

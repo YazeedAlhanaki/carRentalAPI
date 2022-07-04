@@ -11,20 +11,26 @@ datasource db {
 }
 
 model User {
-  user_id  String   @id @default(auto()) @map("_id") @db.ObjectId
-  email    String   @unique
+  user_id  String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String @unique
   username String
   password String
-  role     RoleType @default(USER)
+
 
   Rental    Rental[]
   CarReview CarReview[]
   @@map("Users")
 }
 
-enum RoleType {
-  USER
-  ADMIN
+model Customer {
+  customer_id          String @id @default(auto()) @map("_id") @db.ObjectId
+  customer_name        String
+  customer_age         Int
+  customer_credentials Int
+  customer_contact     Int
+
+
+  Rental Rental[]
 }
 
 // name : Type.String(),
@@ -34,14 +40,15 @@ enum RoleType {
 // 	carId: Type.String(car),
 
 model Rental {
-  rental_id  String   @id @default(auto()) @map("_id") @db.ObjectId
-  User       User?    @relation(fields: [user_id], references: [user_id])
-  user_id    String
-  rentalDate DateTime @default(now())
-  returnDate DateTime
-  Car        Car?     @relation(fields: [car_id], references: [car_id])
-  car_id     String
-
+  rental_id   String    @id @default(auto()) @map("_id") @db.ObjectId
+  User        User?     @relation(fields: [user_id], references: [user_id])
+  user_id     String    @db.ObjectId
+  rentalDate  DateTime  @default(now())
+  returnDate  DateTime
+  Car         Car?      @relation(fields: [car_id], references: [car_id])
+  car_id      String    @db.ObjectId
+  Customer    Customer? @relation(fields: [customer_id], references: [customer_id])
+  customer_id String
 
   Payment Payment[]
   @@map("Rentals")
@@ -56,17 +63,21 @@ model Rental {
 // 	model: Type.Number(),
 
 model Car {
-  car_id   String   @id @default(auto()) @map("_id") @db.ObjectId
-  carName  String
-  carBrand String
-  color    String
-  capacity Int
-  model    Int
-  Rental   Rental[]
+  car_id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  carName   String
+  carBrand  String
+  color     String
+  capacity  Int
+  model     Int
+  is_booked Boolean @default(false)
+  price     Float   @default(100)
+  image_url String?
 
+
+  Rental    Rental[]
   CarReview CarReview[]
+  CarImage  CarImage[]
   @@map("Cars")
-  CarImage CarImage[]
 }
 
 // const Payment = Type.Object({
@@ -79,7 +90,7 @@ model Car {
 model Payment {
   payment_id    String   @id @default(auto()) @map("_id") @db.ObjectId
   Rental        Rental?  @relation(fields: [rental_id], references: [rental_id])
-  rental_id     String
+  rental_id     String   @db.ObjectId
   paymentDate   DateTime @default(now())
   paymentAmount Int
 
@@ -100,9 +111,9 @@ model CarReview {
   reviewScore Float
   reviewDate  DateTime @default(now())
   User        User?    @relation(fields: [user_id], references: [user_id])
-  user_id     String
+  user_id     String   @db.ObjectId
   Car         Car?     @relation(fields: [car_id], references: [car_id])
-  car_id      String
+  car_id      String   @db.ObjectId
 
   @@map("Car Reviews")
 }
@@ -113,10 +124,10 @@ model CarReview {
 // 	carId: Type.String(car),
 
 model CarImage {
-  image_id         String @id @default(auto()) @map("_id") @db.ObjectId
-  imageDescription String
-  Car              Car?   @relation(fields: [car_id], references: [car_id])
-  car_id           String
+  image_id String @id @default(auto()) @map("_id") @db.ObjectId
+  imageURL String
+  Car      Car?   @relation(fields: [car_id], references: [car_id])
+  car_id   String @db.ObjectId
 
   @@map("Car Images")
 }

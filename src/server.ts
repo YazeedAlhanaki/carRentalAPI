@@ -4,6 +4,7 @@ import fastifySensible from '@fastify/sensible';
 import { ajvTypeBoxPlugin, TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import fastify from 'fastify';
 import { join } from 'path';
+import bcrypt from 'bcrypt'
 
 export const server = fastify({
 	logger: true,
@@ -22,8 +23,22 @@ server.register(fastifySwagger, {
 	mode: 'dynamic',
 	openapi: {
 		info: {
-			title: 'carRental API',
+			title: 'Car Rental API',
 			version: '0.0.1',
+		},
+		security: [
+			{
+				bearerAuth: [],
+			},
+		],
+		components: {
+			securitySchemes: {
+				bearerAuth: {
+					type: 'http',
+					scheme: 'bearer',
+					bearerFormat: 'JWT',
+				},
+			},
 		},
 	},
 });

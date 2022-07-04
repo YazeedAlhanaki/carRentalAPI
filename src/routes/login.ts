@@ -1,11 +1,31 @@
+import { Static, Type } from '@sinclair/typebox';
+import { ObjectId } from 'bson';
 import { FastifyInstance } from 'fastify';
 
-export default async function (server: FastifyInstance) {
-	server.get('/login', async (request, reply) => {
-		return 'hi';
-	});
+const LoginBody = Type.Object({
+	email: Type.String({ format: 'email' }),
+	password: Type.String(),
+});
+type LoginBody = Static<typeof LoginBody>;
 
-	server.get('/verify', async (request, reply) => {
-		return 'hi';
+export const tokens: string[] = [];
+export const tokenUsers: { [token: string]: string } = {};
+
+export default async function (server: FastifyInstance) {
+	server.route({
+		method: 'POST',
+		url: '/login',
+		schema: {
+			summary: 'Login a user and returns a token',
+			body: LoginBody,
+		},
+		handler: async (request, reply) => {
+			const { email, password } = request.body as LoginBody;
+			const newToken = new ObjectId().toHexString();
+			tokens.push(newToken);
+			tokenUsers[newToken] = email;
+
+			return newToken;
+		},
 	});
 }

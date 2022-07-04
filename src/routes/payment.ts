@@ -1,90 +1,78 @@
 import { Static, Type } from '@sinclair/typebox';
 import { FastifyInstance } from 'fastify';
-import { paymentController } from '../controllers/payment';
+import { prismaClient } from '../prisma';
+import { Payment } from '@prisma/client';
+import _ from 'lodash';
+import { ObjectId } from 'bson';
+import Fuse from 'fuse.js'
 
 const Payment = Type.Object({
-	id: Type.String({ format: 'uuid', $id: 'car' }),
-	paymentId: Type.String(),
-	paymentDate: Type.String(Date),
-	rentalId: Type.String(),
-	paymentAmount: Type.Number()
+	payment_id: Type.String(),           
+    rental_id  : Type.String(),      
+    paymentDate  : Type.String({format:"date-time"}), 
+    paymentAmount: Type.Number()
 });
-type Payment = Static<typeof Payment>;
 
+const PaymentwithoutId = Type.Object({
+    rental_id  : Type.String(),      
+    paymentDate  : Type.String({format:"date-time"}), 
+    paymentAmount: Type.Number()
+});
+type PaymentwithoutId = Static<typeof PaymentwithoutId>;
 
+const GetpaymentQuery = Type.Object({
+	text: Type.Optional(Type.String()),
+});
+type GetpaymentQuery = Static<typeof GetpaymentQuery>;
 
-export let payments: Payment[] = [];
 
 export default async function (server: FastifyInstance) {
-	server.route({
-		method: 'PUT',
-		url: '/payment',
-		schema: {
-			summary: 'Creates new payment + all properties are required',
-			tags: ['payment'],
-			body: Payment,
-		},
-		handler: async (request, reply) => {
-			const newPayment: any = request.body;
-			return paymentController(payments, newPayment);
-		},
-	});
+	// server.route({
+	// 	method: 'POST',
+	// 	url: '/payment',
+	// 	schema: {
+	// 		summary: 'Creates new payment',
+	// 		tags: ['payment'],
+	// 		body: PaymentwithoutId,
+	// 	},
+	// 	handler: async (request, reply) => {
+	// 		const payment = request.body as Payment
+			
+	// 		return await prismaClient.payment.create({
+	// 			data: payment,
+	// 		})
+	// 		// return prismaClient.user.findMany();
+	// 	},
+	// }); 
+	// server.route({
+	// 	method: 'GET',
+	// 	url: '/payment',
+	// 	schema: {
+	// 		summary: 'Gets all payments',
+	// 		tags: ['payment'],
+	// 		querystring: GetpaymentQuery,
+	// 		response: {
+	// 			'2xx': Type.Array(Payment),
+	// 		},
+	// 	},
+	// 	handler: async (request, reply) => {
+	// 		const query = request.query as GetpaymentQuery;
 
-	server.route({
-		method: 'PATCH',
-		url: '/payment/:id',
-		schema: {
-			summary: 'Update a payment by id + you dont need to pass all properties',
-			tags: ['payment'],
-			body: Type.Partial(Payment),
-			params: Type.Object({
-				id: Type.String({ format: 'uuid' }),
-			}),
-		},
-		handler: async (request, reply) => {
-			const newPayment: any = request.body;
-			return paymentController(payments, newPayment);
-		},
-	});
+	// 		const payments = await prismaClient.payment.findMany();
+	// 		if (!query.text) return payments;
 
-	server.route({
-		method: 'DELETE',
-		url: '/payment/:id',
-		schema: {
-			summary: 'Deletes a payment',
-			tags: ['payment'],
-			params: Type.Object({
-				id: Type.String({ format: 'uuid' }),
-			}),
-		},
-		handler: async (request, reply) => {
-			const id = (request.params as any).id as string;
+	// 		const fuse = new Fuse(payments, {
+	// 			includeScore: true,
+	// 			isCaseSensitive: false,
+	// 			includeMatches: true,
+	// 			findAllMatches: true,
+	// 			threshold: 1,
+	// 			keys: ['paymentDate', 'paymentAmount'],
+	// 		});
 
-			payments = payments.filter((c) => c.id !== id);
 
-			return payments;
-		},
-	});
-
-	server.route({
-		method: 'GET',
-		url: '/payment/:id',
-		schema: {
-			summary: 'Returns one payment or null',
-			tags: ['payment'],
-			params: Type.Object({
-				id: Type.String({ format: 'uuid' }),
-			}),
-			response: {
-				'2xx': Type.Union([Payment, Type.Null()]),
-			},
-		},
-		handler: async (request, reply) => {
-			const id = (request.params as any).id as string;
-
-			return payments.find((c) => c.id === id) ?? null;
-		},
-	});
-
-	
+	// 		const result: Payment[] = fuse.search(query.text).map((r) => r.item);
+	// 		return result;
+	// 	},
+	// });
 }

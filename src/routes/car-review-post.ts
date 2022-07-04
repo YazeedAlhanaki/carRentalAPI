@@ -5,6 +5,7 @@ import { prismaClient } from '../prisma';
 import _ from 'lodash';
 import { ObjectId } from 'bson';
 import Fuse from 'fuse.js'
+import { addAuthorization } from '../hooks/auth';
 
 
 const CarReviewWithoutId = Type.Object({
@@ -18,6 +19,7 @@ type CarReviewWithoutId = Static<typeof CarReviewWithoutId>;
 
 
 export default async function (server: FastifyInstance) {
+    addAuthorization(server);
 
 	server.route({
 		method: 'POST',

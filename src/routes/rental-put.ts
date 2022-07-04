@@ -2,6 +2,7 @@ import { Static, Type } from "@sinclair/typebox";
 import { ObjectId } from "bson";
 import { FastifyInstance } from "fastify";
 import _ from "lodash";
+import { addAuthorization } from "../hooks/auth";
 import { prismaClient } from "../prisma";
 
 const Rentals = Type.Object({
@@ -15,6 +16,8 @@ type Rentals = Static<typeof Rentals>;
 
 
 export default async function (server: FastifyInstance) {
+    addAuthorization(server);
+
     server.route({
 		method: 'PUT',
 		url: '/rentals',

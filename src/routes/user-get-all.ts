@@ -2,6 +2,7 @@ import { User } from "@prisma/client";
 import { Static, Type } from "@sinclair/typebox";
 import { FastifyInstance } from "fastify";
 import Fuse from "fuse.js";
+import { addAuthorization } from "../hooks/auth";
 import { prismaClient } from "../prisma";
 const Users = Type.Object({
 	user_id: Type.String(),
@@ -17,6 +18,8 @@ const GetUsersQuery = Type.Object({
 type GetUsersQuery = Static<typeof GetUsersQuery>;
 
 export default async function (server: FastifyInstance) {
+    addAuthorization(server);
+
     server.route({
 		method: 'GET',
 		url: '/user',

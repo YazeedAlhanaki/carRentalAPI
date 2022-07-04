@@ -4,6 +4,7 @@ import { FastifyInstance } from "fastify";
 import _ from "lodash";
 import { Customer } from '@prisma/client';
 import { prismaClient } from "../prisma";
+import { addAuthorization } from "../hooks/auth";
 
 const Customer = Type.Object({
     customer_id: Type.String(),
@@ -15,6 +16,8 @@ const Customer = Type.Object({
 });
 
 export default async function (server: FastifyInstance) {
+    addAuthorization(server);
+
 server.route({
     method: 'PUT',
     url: '/customer',

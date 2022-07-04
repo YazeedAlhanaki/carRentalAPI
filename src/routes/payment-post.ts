@@ -1,6 +1,7 @@
 import { Payment } from "@prisma/client";
 import { Static, Type } from "@sinclair/typebox";
 import { FastifyInstance } from "fastify";
+import { addAuthorization } from "../hooks/auth";
 import { prismaClient } from "../prisma";
 
 const PaymentwithoutId = Type.Object({
@@ -12,6 +13,8 @@ type PaymentwithoutId = Static<typeof PaymentwithoutId>;
 
 
 export default async function (server: FastifyInstance) {
+    addAuthorization(server);
+
     server.route({
 		method: 'POST',
 		url: '/payment',
@@ -21,6 +24,8 @@ export default async function (server: FastifyInstance) {
 			body: PaymentwithoutId,
 		},
 		handler: async (request, reply) => {
+            addAuthorization(server);
+
 			const payment = request.body as Payment
 			
 			return await prismaClient.payment.create({

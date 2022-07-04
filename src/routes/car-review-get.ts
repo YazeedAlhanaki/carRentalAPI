@@ -3,6 +3,7 @@ import { FastifyInstance } from "fastify";
 import Fuse from "fuse.js";
 import { CarReview } from '@prisma/client';
 import { prismaClient } from "../prisma";
+import { addAuthorization } from "../hooks/auth";
 
 const CarReview = Type.Object({
 	review_id: Type.String(),
@@ -17,6 +18,8 @@ const GetReviewsQuery = Type.Object({
 });
 type GetReviewsQuery = Static<typeof GetReviewsQuery>;
 export default async function (server: FastifyInstance) {
+    addAuthorization(server);
+
     server.route({
 		method: 'GET',
 		url: '/reviews',

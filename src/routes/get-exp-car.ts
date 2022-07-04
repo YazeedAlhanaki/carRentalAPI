@@ -3,6 +3,7 @@ import { FastifyInstance } from "fastify";
 import { request } from "http";
 import { mean, method, round } from "lodash";
 import { type } from "os";
+import { addAuthorization } from "../hooks/auth";
 import { prismaClient } from "../prisma";
 
 
@@ -18,6 +19,8 @@ const Car = Type.Object({
 });
 
 export default async function (server: FastifyInstance) {
+    addAuthorization(server);
+
     server.route({
         url: '/most-expensive-available-car',
         method: 'GET',

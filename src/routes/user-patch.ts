@@ -1,6 +1,7 @@
 import { Static, Type } from "@sinclair/typebox";
 import { ObjectId } from "bson";
 import { FastifyInstance } from "fastify";
+import { addAuthorization } from "../hooks/auth";
 import { prismaClient } from "../prisma";
 const Users = Type.Object({
 	user_id: Type.String(),
@@ -24,7 +25,7 @@ const UserParams = Type.Object({
 type UserParams = Static<typeof UserParams>;
 
 export default async function (server: FastifyInstance) {
-
+    addAuthorization(server);
     server.route({
 		method: 'PATCH',
 		url: '/user/:user_id',

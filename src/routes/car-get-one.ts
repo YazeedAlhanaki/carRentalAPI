@@ -3,6 +3,7 @@ import { ObjectId } from "bson";
 import { prismaClient } from "../prisma";
 import { Car } from '@prisma/client';
 import { FastifyInstance } from "fastify";
+import { addAuthorization } from "../hooks/auth";
 
 const Car = Type.Object({
 	car_id: Type.String(),
@@ -20,6 +21,8 @@ const CarParams = Type.Object({
 type CarParams = Static<typeof CarParams>;
 
 export default async function (server: FastifyInstance) {
+    addAuthorization(server);
+
 server.route({
     method: 'GET',
     url: '/cars/:car_id',

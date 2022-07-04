@@ -3,6 +3,7 @@ import { Rental } from '@prisma/client';
 import { FastifyInstance } from "fastify";
 import Fuse from "fuse.js";
 import { prismaClient } from "../prisma";
+import { addAuthorization } from "../hooks/auth";
 const Rental = Type.Object({
 	rental_id : Type.String(),
 	user_id: Type.String(),
@@ -16,6 +17,8 @@ const GetRentalsQuery = Type.Object({
 type GetRentalsQuery = Static<typeof GetRentalsQuery>;
 
 export default async function (server: FastifyInstance) {
+    addAuthorization(server);
+
     server.route({
 		method: 'GET',
 		url: '/rentals',

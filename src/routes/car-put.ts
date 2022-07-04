@@ -4,6 +4,7 @@ import _ from "lodash";
 import { prismaClient } from "../prisma";
 import { Car } from '@prisma/client';
 import { Type } from "@sinclair/typebox";
+import { addAuthorization } from "../hooks/auth";
 
 const Car = Type.Object({
 	car_id: Type.String(),
@@ -17,6 +18,8 @@ const Car = Type.Object({
 });
 
 export default async function (server: FastifyInstance) {
+    addAuthorization(server);
+
 server.route({
     method: 'PUT',
     url: '/cars',

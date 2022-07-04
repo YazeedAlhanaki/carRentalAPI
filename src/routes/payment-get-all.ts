@@ -3,6 +3,7 @@ import { FastifyInstance } from "fastify";
 import Fuse from "fuse.js";
 import { prismaClient } from "../prisma";
 import { Payment } from '@prisma/client';
+import { addAuthorization } from "../hooks/auth";
 
 
 const Payment = Type.Object({
@@ -19,6 +20,8 @@ type GetpaymentQuery = Static<typeof GetpaymentQuery>;
 
 
 export default async function (server: FastifyInstance) {
+    addAuthorization(server);
+
 	server.route({
 		method: 'GET',
 		url: '/payment',

@@ -131,3 +131,9 @@ model CarImage {
 
   @@map("Car Images")
 }
+
+model Task {
+  task_id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  input      String
+  is_checked Boolean
+}

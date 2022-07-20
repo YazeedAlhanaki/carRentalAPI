@@ -4,6 +4,7 @@ import fastifySensible from '@fastify/sensible';
 import { ajvTypeBoxPlugin, TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import fastify from 'fastify';
 import { join } from 'path';
+import fastifyCors from '@fastify/cors';
 import bcrypt from 'bcrypt'
 
 export const server = fastify({
@@ -16,6 +17,9 @@ export const server = fastify({
 		plugins: [ajvTypeBoxPlugin],
 	},
 }).withTypeProvider<TypeBoxTypeProvider>();
+
+server.register(fastifyCors);
+
 
 server.register(fastifySwagger, {
 	routePrefix: '/docs',
